@@ -1,0 +1,283 @@
+.schedule {
+  // background: rgba(255, 255, 255, 0.2);
+  // border-radius: 16px;
+  // box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  // backdrop-filter: blur(5px);
+  // -webkit-backdrop-filter: blur(5px);
+  // border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1.5rem;
+  border-radius: 0 50px 50px 50px;
+  margin-top: 14vh;
+  // background: #e0e0e0;
+  // box-shadow:  6px 4px 30px #bebebe,
+  //              -20px -20px 30px #ffffff;
+  box-shadow: -5px -5px 9px rgba(255, 255, 255, 0.45),
+    5px 5px 9px rgba(94, 104, 121, 0.3);
+
+  width: 600px;
+  height: 60vh;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+
+  &__tabs {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    display: flex;
+  }
+
+  &__tab {
+    color: #878787;
+
+    padding: 10px 14px;
+    box-shadow: -5px -5px 9px rgba(255, 255, 255, 0.45),
+      5px 5px 9px rgba(94, 104, 121, 0.081);
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #87878715;
+    }
+    &.active {
+      background-color: #f3d528cb;
+      // background-image: linear-gradient(to top, #50cc7f 0%, #f5d100 100%);
+      color: rgb(73, 73, 73);
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+&__delete_button {
+  background: transparent;
+  position: relative;
+  border: none;
+  padding: 0 5px;
+  cursor: pointer;
+  &::before {
+position: absolute;
+content: '';
+top: 40%;
+right: 0;
+width: 20px;
+height: 3px;
+background-color: #0000000f;
+transform: rotate(45deg);
+box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
+border-radius: 1px;
+  }
+  &::after {
+position: absolute;
+border-radius: 1px;
+
+content: '';
+top: 40%;
+right: 0;
+width: 20px;
+height: 3px;
+// background-color: #000000;
+background-color: #0000000f;
+
+transform: rotate(-45deg);
+// box-shadow: -0px -0px 5px rgba(255,255,255,0.45), 0px 0px 1px rgba(94,104,121,0.3);
+box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
+  }
+}
+  &__selector {
+    position: relative;
+
+    &_buttons {
+      box-shadow: -5px -5px 9px rgba(255, 255, 255, 0.45),
+        5px 5px 9px rgba(94, 104, 121, 0.148);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    &_buttons_crondata_wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    &_buttons_crondata {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    &_button_crondata {
+      position: relative;
+      border: none;
+      background: transparent;
+      padding: 0 5px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    &_input {
+      background-color: transparent;
+      outline: none;
+      border: none;
+      // box-shadow: -5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94, 104, 121, 0.148);
+      padding: 0.5rem 0.2rem 0.5rem 1rem;
+      appearance: none;
+      cursor: pointer;
+      width: 150px;
+      transition: all 0.2s ease;
+      &:hover {
+        background-color: #87878715;
+      }
+    }
+
+    &_input_crondata {
+      width: 100%;
+    }
+
+    &__minutes {
+      width: 150px;
+    }
+
+    &_button {
+      width: 100px;
+      color: #878787;
+      background-color: transparent;
+      outline: none;
+      border: none;
+      box-shadow: -3px -3px 9px rgba(255, 255, 255, 0.45),
+        3px 3px 9px rgba(94, 104, 121, 0.148);
+
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #f3d528cb;
+        // background-image: linear-gradient(to top, #50cc7f 0%, #f5d100 100%);
+        color: rgb(73, 73, 73);
+      }
+
+      &_custom {
+        width: 150px;
+        border-radius: 8px;
+        color: #000000;
+      }
+    }
+  }
+
+    &__selects {
+      position: absolute;
+      left: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+  z-index: 10;
+      &.active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &__select {
+      background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+        outline: none;
+      
+        // background-color: aqua;
+        width: 120px;
+        // cursor: pointer;
+
+        &_time {
+
+          width: 70px;
+        }
+      }
+  
+    &__option {
+  cursor: pointer;
+  background-color: transparent;
+  transition: all 0.1s ease;
+  padding: 0.3rem;
+  &:hover {
+    background-color: #f3d528cb;
+        // background-image: linear-gradient(to top, #50cc7f 0%, #f5d100 100%);
+        color: rgb(73, 73, 73);
+  }
+    }
+
+    &__intervals {
+      display: flex;
+      gap: 0.5rem;
+    } 
+
+    &__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    &__crondata_wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+    &__crondata_list {
+      // position: absolute;
+      // top: 10%;
+      // right: 100px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+justify-content: center;
+align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 14vh;
+    }
+
+    &__crondata_item {
+      width: 200px;
+      // cursor: text;
+      display: flex;
+justify-content: space-between;
+box-shadow: -3px -3px 9px rgba(255, 255, 255, 0.45),
+        3px 3px 9px rgba(94, 104, 121, 0.148);
+border-radius: 8px;
+      padding: 0 0.6rem 0 0;
+      // font-family: ;
+  font-family: 'Manrope', sans-serif;
+
+    }
+&__crondata_copy {
+  position: absolute;
+  color: #878787;
+
+  // right: 0;
+  top: 180px;
+  font-size: 12px;
+  max-width: 200px;
+  text-align: left;
+}
+    &__crondata_name {
+      white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    text-overflow: ellipsis; /* Многоточие */
+      padding: 0.6rem 1rem;
+      text-align: left;
+      // background-color: #878787;
+cursor: cell;
+      width: 85%;
+      height: 100%;
+    }
+}
