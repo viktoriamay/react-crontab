@@ -1,6 +1,6 @@
-import { Monthdays } from "../Monthdays/Monthdays"
-import { Months } from "../Months/Months"
-import { Time } from "../Time/Time"
+import { Monthdays } from '../Monthdays/Monthdays';
+import { Months } from '../Months/Months';
+import { Time } from '../Time/Time';
 
 export const MonthlySchedule = () => {
   return (
@@ -10,5 +10,5 @@ export const MonthlySchedule = () => {
       <Monthdays />
       <Time />
     </div>
-  )
-}
+  );
+};

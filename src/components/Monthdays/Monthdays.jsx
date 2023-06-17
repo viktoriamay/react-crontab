@@ -1,10 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-import { monthdays } from "../../data/data";
-import { changeMonthdaysValue, changeMonthdaysVisibility, clearMonthdaysValue } from "../../storage/actions/monthdaysActions";
-import { useRef } from "react";
-import { changeMonthsVisibility } from "../../storage/actions/monthsActions";
-import { changeHoursVisibility } from "../../storage/actions/hoursActions";
-import { changeWeekdayVisibility } from "../../storage/actions/weekdaysActions";
+import { useDispatch, useSelector } from 'react-redux';
+import { monthdays } from '../../data/data';
+import {
+  changeMonthdaysValue,
+  changeMonthdaysVisibility,
+  clearMonthdaysValue,
+} from '../../storage/actions/monthdaysActions';
+import { useRef } from 'react';
+import { changeMonthsVisibility } from '../../storage/actions/monthsActions';
+import { changeHoursVisibility } from '../../storage/actions/hoursActions';
+import { changeWeekdayVisibility } from '../../storage/actions/weekdaysActions';
 
 export const Monthdays = () => {
   const dispatch = useDispatch();
@@ -32,7 +36,7 @@ export const Monthdays = () => {
     dispatch(changeHoursVisibility(false));
     dispatch(changeWeekdayVisibility(false));
   };
- 
+
   const monthdaysRef = useRef();
 
   const handleClearMonthdays = () => {
@@ -41,42 +45,47 @@ export const Monthdays = () => {
   };
   return (
     <div className="content__selector">
-
-    <div className="content__selector_buttons">
+      <div className="content__selector_buttons">
         <button
           className="content__selector_input"
           onClick={handleActiveMonthdays}
         >
           Days
         </button>
-        <button className="content__selector_button" onClick={handleClearMonthdays}>Clear
+        <button
+          className="content__selector_button"
+          onClick={handleClearMonthdays}
+        >
+          Clear
         </button>
       </div>
       <div
-      onClick={e=>e.stopPropagation()}
-
-        className={activeMonthdays ? 'content__selects active' : 'content__selects'}
+        onClick={(e) => e.stopPropagation()}
+        className={
+          activeMonthdays ? 'content__selects active' : 'content__selects'
+        }
       >
-
-      <select
+        <select
           className="content__select"
-
-        name="weekdays"
-        id="weekdays"
-        multiple
-        size={7}
-        ref={monthdaysRef}
-        onChange={handleMonthdaysChange}
-      >
-        {monthdays.map((month) => (
-          <option 
+          name="weekdays"
+          id="weekdays"
+          multiple
+          size={7}
+          ref={monthdaysRef}
+          onChange={handleMonthdaysChange}
+        >
+          {monthdays.map((month) => (
+            <option
               className="content__option"
-           key={month.name} id={month.id} value={month.name}>
-            {month.name}
-          </option>
-        ))}
-      </select>
+              key={month.name}
+              id={month.id}
+              value={month.name}
+            >
+              {month.name}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
-}
+};

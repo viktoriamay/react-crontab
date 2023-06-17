@@ -5,7 +5,7 @@ import {
   changeWeekdayVisibility,
   clearWeekdayValue,
 } from '../../storage/actions/weekdaysActions';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { changeMonthdaysVisibility } from '../../storage/actions/monthdaysActions';
 import { changeMonthsVisibility } from '../../storage/actions/monthsActions';
 import { changeHoursVisibility } from '../../storage/actions/hoursActions';
@@ -23,12 +23,10 @@ export const Weekdays = () => {
     });
     dispatch(changeWeekdayValue(selectedDays));
   };
-  const [isWindowOpen, setIsWindowOpen] = useState(false);
 
   const activeWeekdays = useSelector(
     (state) => state.weekdayOptions.isVisibleWeekdays
-    );
-
+  );
 
   const handleActiveWeekdays = (e) => {
     e.stopPropagation();
@@ -39,7 +37,7 @@ export const Weekdays = () => {
 
     dispatch(changeHoursVisibility(false));
   };
-  
+
   const weekdaysRef = useRef();
 
   const handleClearWeekdays = () => {
@@ -47,44 +45,48 @@ export const Weekdays = () => {
     weekdaysRef.current.selectedIndex = -1;
   };
   return (
-    <div className='content__selector'>
-    <div className="content__selector_buttons">
+    <div className="content__selector">
+      <div className="content__selector_buttons">
         <button
           className="content__selector_input"
           onClick={handleActiveWeekdays}
         >
           Weekdays
         </button>
-        <button className="content__selector_button" onClick={handleClearWeekdays}>Clear
+        <button
+          className="content__selector_button"
+          onClick={handleClearWeekdays}
+        >
+          Clear
         </button>
       </div>
       <div
-      onClick={e=>e.stopPropagation()}
-
-        className={activeWeekdays ? 'content__selects active' : 'content__selects'}
+        onClick={(e) => e.stopPropagation()}
+        className={
+          activeWeekdays ? 'content__selects active' : 'content__selects'
+        }
       >
-
-      <select
+        <select
           className="content__select"
-
-        name="weekdays"
-        id="weekdays"
-        multiple
-        size={7}
-        ref={weekdaysRef}
-        onChange={handleWeekdaysChange}
-      >
-        {weekDays.map((weekday) => (
-          <option 
+          name="weekdays"
+          id="weekdays"
+          multiple
+          size={7}
+          ref={weekdaysRef}
+          onChange={handleWeekdaysChange}
+        >
+          {weekDays.map((weekday) => (
+            <option
               className="content__option"
-          
-           key={weekday.name} id={weekday.id} value={weekday.name}>
-            {weekday.name}
-          </option>
-        ))}
-      </select>
+              key={weekday.name}
+              id={weekday.id}
+              value={weekday.name}
+            >
+              {weekday.name}
+            </option>
+          ))}
+        </select>
       </div>
-      
     </div>
   );
 };

@@ -10,7 +10,6 @@ import {
   changeMinutesValue,
   clearMinutesValue,
 } from '../../storage/actions/minutesActions';
-import './Time.scss';
 import { changeWeekdayVisibility } from '../../storage/actions/weekdaysActions';
 import { changeMonthdaysVisibility } from '../../storage/actions/monthdaysActions';
 import { changeMonthsVisibility } from '../../storage/actions/monthsActions';
@@ -41,26 +40,16 @@ export const Time = () => {
     dispatch(changeMinutesValue(selectedMinutes));
   };
 
-  const hoursValue = useSelector((state) => state.hoursOptions.selectedHours);
-  const minutesValue = useSelector(
-    (state) => state.hoursOptions.isVisibleHours
-  );
   const activeTime = useSelector((state) => state.hoursOptions.isVisibleHours);
 
   const handleActiveTime = (e) => {
     dispatch(changeHoursVisibility(!activeTime));
-    e.stopPropagation()
+    e.stopPropagation();
     dispatch(changeWeekdayVisibility(false));
     dispatch(changeMonthdaysVisibility(false));
     dispatch(changeMonthsVisibility(false));
-
-    
-  };
-  const handleOutsideCkick = (e) => {
-    dispatch(changeHoursVisibility(false));
   };
 
-  // document.addEventListener('click',handleOutsideCkick )
   const minutesRef = useRef();
 
   const handleClearHours = () => {
@@ -69,14 +58,11 @@ export const Time = () => {
     hoursRef.current.selectedIndex = -1;
     minutesRef.current.selectedIndex = -1;
   };
+
   return (
     <div className="content__selector">
       <div className="content__selector_buttons">
-        <button
-        
-          className="content__selector_input"
-          onClick={handleActiveTime}
-        >
+        <button className="content__selector_input" onClick={handleActiveTime}>
           HH:MM
         </button>
         <button className="content__selector_button" onClick={handleClearHours}>
@@ -85,7 +71,7 @@ export const Time = () => {
       </div>
 
       <div
-      onClick={(e)=>e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
         className={activeTime ? 'content__selects active' : 'content__selects'}
       >
         <select

@@ -30,7 +30,6 @@ export const WeeklySchedule = () => {
       ? 'every minute'
       : selectedMinutes.map((minute) => minute.title).join(', ') + ' minutes';
 
-  
   return (
     <div className="content">
       <h2 className="content__title">

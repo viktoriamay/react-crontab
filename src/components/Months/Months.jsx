@@ -5,7 +5,7 @@ import {
   changeMonthsVisibility,
   clearMonthsValue,
 } from '../../storage/actions/monthsActions';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { changeHoursVisibility } from '../../storage/actions/hoursActions';
 import { changeWeekdayVisibility } from '../../storage/actions/weekdaysActions';
 import { changeMonthdaysVisibility } from '../../storage/actions/monthdaysActions';
@@ -27,7 +27,6 @@ export const Months = () => {
   const activeMonth = useSelector(
     (state) => state.monthsOptions.isVisibleMonths
   );
-  const ref = useRef();
 
   const handleActiveMonths = (e) => {
     e.stopPropagation();
@@ -36,26 +35,7 @@ export const Months = () => {
     dispatch(changeHoursVisibility(false));
     dispatch(changeWeekdayVisibility(false));
     dispatch(changeMonthdaysVisibility(false));
-
-  
-    
   };
-
-// const handleOutsideClick = (e) => {
-//     dispatch(changeMonthsVisibility(false));
-
-//     dispatch(changeHoursVisibility(false));
-//     dispatch(changeWeekdayVisibility(false));
-//     dispatch(changeMonthdaysVisibility(false));
-// };
-
-// useEffect(() => {
-//   document.addEventListener('click', handleOutsideClick);
-//   return () => {
-//     document.removeEventListener('click', handleOutsideClick);
-//   };
-// }, []);
-
 
   const monthsRef = useRef();
 
@@ -63,15 +43,11 @@ export const Months = () => {
     dispatch(clearMonthsValue());
     monthsRef.current.selectedIndex = -1;
   };
+  
   return (
-    <div className="content__selector" 
-        // onClick={lll}
-    >
+    <div className="content__selector">
       <div className="content__selector_buttons">
         <button
-              ref={ref}
-      id='refff'
-
           className="content__selector_input"
           onClick={handleActiveMonths}
         >
@@ -85,7 +61,7 @@ export const Months = () => {
         </button>
       </div>
       <div
-      onClick={e=>e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
         className={activeMonth ? 'content__selects active' : 'content__selects'}
       >
         <select

@@ -12,7 +12,7 @@ import { clearHoursValue } from '../../storage/actions/hoursActions';
 import { clearMonthdaysValue } from '../../storage/actions/monthdaysActions';
 import { clearMonthsValue } from '../../storage/actions/monthsActions';
 import { clearWeekdayValue } from '../../storage/actions/weekdaysActions';
-import './Schedule.scss'
+import './Schedule.scss';
 
 export const Schedule = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -52,15 +52,13 @@ export const Schedule = () => {
   ];
 
   return (
-    <div className='schedule'>
+    <div className="schedule">
       <ul className="schedule__tabs">
         {tabs.map((tab, index) => (
           <li
             key={index}
             className={
-              activeTab === index
-                ? `active schedule__tab `
-                : `schedule__tab `
+              activeTab === index ? `active schedule__tab ` : `schedule__tab `
             }
             onClick={() => handleTabClick(index)}
           >
