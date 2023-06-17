@@ -3,6 +3,7 @@ import {
   changeMinutesIntervalValue,
   clearIntervalValue,
 } from '../../storage/actions/intervalActions';
+import './Interval.scss'
 
 export const MinutesInterval = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ export const MinutesInterval = () => {
 
   return (
     <>
+
+    {/* <div className='content__selector_buttons'> */}
       <input
         type="number"
         name="interval"
@@ -28,7 +31,8 @@ export const MinutesInterval = () => {
         value={minutesIntervalValue}
         onChange={handleIntervalChange}
       />
-      <button onClick={handleClearInterval}>Clear interval</button>
+      {/* <button className='content__selector_button' onClick={handleClearInterval}>Clear interval</button> */}
+    {/* </div> */}
     </>
   );
 };
