@@ -2,9 +2,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { weekDays } from '../../data/data';
 import {
   changeWeekdayValue,
+  changeWeekdayVisibility,
   clearWeekdayValue,
 } from '../../storage/actions/weekdaysActions';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { changeMonthdaysVisibility } from '../../storage/actions/monthdaysActions';
+import { changeMonthsVisibility } from '../../storage/actions/monthsActions';
+import { changeHoursVisibility } from '../../storage/actions/hoursActions';
 
 export const Weekdays = () => {
   const dispatch = useDispatch();
@@ -19,7 +23,23 @@ export const Weekdays = () => {
     });
     dispatch(changeWeekdayValue(selectedDays));
   };
+  const [isWindowOpen, setIsWindowOpen] = useState(false);
 
+  const activeWeekdays = useSelector(
+    (state) => state.weekdayOptions.isVisibleWeekdays
+    );
+
+
+  const handleActiveWeekdays = (e) => {
+    e.stopPropagation();
+
+    dispatch(changeWeekdayVisibility(!activeWeekdays));
+    dispatch(changeMonthdaysVisibility(false));
+    dispatch(changeMonthsVisibility(false));
+
+    dispatch(changeHoursVisibility(false));
+  };
+  
   const weekdaysRef = useRef();
 
   const handleClearWeekdays = () => {
@@ -27,8 +47,26 @@ export const Weekdays = () => {
     weekdaysRef.current.selectedIndex = -1;
   };
   return (
-    <>
+    <div className='content__selector'>
+    <div className="content__selector_buttons">
+        <button
+          className="content__selector_input"
+          onClick={handleActiveWeekdays}
+        >
+          Weekdays
+        </button>
+        <button className="content__selector_button" onClick={handleClearWeekdays}>Clear
+        </button>
+      </div>
+      <div
+      onClick={e=>e.stopPropagation()}
+
+        className={activeWeekdays ? 'content__selects active' : 'content__selects'}
+      >
+
       <select
+          className="content__select"
+
         name="weekdays"
         id="weekdays"
         multiple
@@ -37,12 +75,16 @@ export const Weekdays = () => {
         onChange={handleWeekdaysChange}
       >
         {weekDays.map((weekday) => (
-          <option key={weekday.name} id={weekday.id} value={weekday.name}>
+          <option 
+              className="content__option"
+          
+           key={weekday.name} id={weekday.id} value={weekday.name}>
             {weekday.name}
           </option>
         ))}
       </select>
-      <button onClick={handleClearWeekdays}>Clear weekdays</button>
-    </>
+      </div>
+      
+    </div>
   );
 };

@@ -1,7 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { monthdays } from "../../data/data";
-import { changeMonthdaysValue, clearMonthdaysValue } from "../../storage/actions/monthdaysActions";
+import { changeMonthdaysValue, changeMonthdaysVisibility, clearMonthdaysValue } from "../../storage/actions/monthdaysActions";
 import { useRef } from "react";
+import { changeMonthsVisibility } from "../../storage/actions/monthsActions";
+import { changeHoursVisibility } from "../../storage/actions/hoursActions";
+import { changeWeekdayVisibility } from "../../storage/actions/weekdaysActions";
 
 export const Monthdays = () => {
   const dispatch = useDispatch();
@@ -16,7 +19,20 @@ export const Monthdays = () => {
     });
     dispatch(changeMonthdaysValue(selectedMonthdays));
   };
+  const activeMonthdays = useSelector(
+    (state) => state.monthdaysOptions.isVisibleMonthdays
+  );
 
+  const handleActiveMonthdays = (e) => {
+    e.stopPropagation();
+
+    dispatch(changeMonthdaysVisibility(!activeMonthdays));
+    dispatch(changeMonthsVisibility(false));
+
+    dispatch(changeHoursVisibility(false));
+    dispatch(changeWeekdayVisibility(false));
+  };
+ 
   const monthdaysRef = useRef();
 
   const handleClearMonthdays = () => {
@@ -24,8 +40,27 @@ export const Monthdays = () => {
     monthdaysRef.current.selectedIndex = -1;
   };
   return (
-    <>
+    <div className="content__selector">
+
+    <div className="content__selector_buttons">
+        <button
+          className="content__selector_input"
+          onClick={handleActiveMonthdays}
+        >
+          Days
+        </button>
+        <button className="content__selector_button" onClick={handleClearMonthdays}>Clear
+        </button>
+      </div>
+      <div
+      onClick={e=>e.stopPropagation()}
+
+        className={activeMonthdays ? 'content__selects active' : 'content__selects'}
+      >
+
       <select
+          className="content__select"
+
         name="weekdays"
         id="weekdays"
         multiple
@@ -34,12 +69,14 @@ export const Monthdays = () => {
         onChange={handleMonthdaysChange}
       >
         {monthdays.map((month) => (
-          <option key={month.name} id={month.id} value={month.name}>
+          <option 
+              className="content__option"
+           key={month.name} id={month.id} value={month.name}>
             {month.name}
           </option>
         ))}
       </select>
-      <button onClick={handleClearMonthdays}>Clear monthdays</button>
-    </>
+      </div>
+    </div>
   );
 }
