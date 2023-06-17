@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useCronString } from '../../hooks/useCronString';
 import { useCopyToClipboard } from 'react-use';
+import './CronData.scss';
 
 export const CronData = () => {
   const { cronString } = useCronString();
+
   const [state, copyToClipboard] = useCopyToClipboard();
 
   const [inputData, setInputData] = useState('');
@@ -48,49 +50,55 @@ export const CronData = () => {
   };
 
   return (
-    <div className="content__crondata_wrapper">
-      <div className="content__selector_buttons_crondata_wrapper">
+    <div className="crondata">
+      <div className="crondata__buttons_wrapper">
         <input
-          className="content__selector_buttons content__selector_input content__selector_input_crondata"
+          className="content__selector_buttons content__selector_input crondata__input"
           type="text"
           value={inputData}
           readOnly
         />
-        <div className="content__selector_buttons_crondata">
+        <div className="crondata__buttons">
           <button
-            className="content__selector_button content__selector_button_crondata"
+            className="content__selector_button 
+            
+            "
             onClick={handleInputChange}
           >
             Load
           </button>
           <button
-            className="content__selector_button content__selector_button_crondata"
+            className="content__selector_button "
             onClick={handleAddClick}
           >
             Save
           </button>
         </div>
       </div>
-      <div className="content__crondata_list">
+      <div className="crondata__list">
         {savedData.map((data, index) => (
-          <div className="content__crondata_item" key={Math.random(index)}>
+          <div className="crondata__item" key={Math.random(index)}>
             <p
-              className="content__crondata_name"
+              className="crondata__name"
               onClick={(e) => copyToClipboard(e.target.innerHTML)}
             >
               {data}
             </p>
             <button
-              className=" content__delete_button"
+              className="crondata__delete_button"
               onClick={() => removeItemFromLocalStorage(index)}
             ></button>
           </div>
         ))}
-            {state.error ? (
-              <p className='content__crondata_copy'>Unable to copy value: {state.error.message}</p>
-            ) : (
-              state.value && <p className='content__crondata_copy'>Copied {state.value}</p>
-            )}
+        {state.error ? (
+          <p className="crondata__copy">
+            Unable to copy value: {state.error.message}
+          </p>
+        ) : (
+          state.value && (
+            <p className="crondata__copy">Copied {state.value}</p>
+          )
+        )}
       </div>
     </div>
   );
