@@ -1,5 +1,4 @@
 import { useCronString } from '../../hooks/useCronString';
-import { CronData } from '../CronData/CronData';
 import './CronString.scss';
 
 export const CronString = () => {
@@ -9,7 +8,6 @@ export const CronString = () => {
     monthdaysCronValue,
     monthsCronValue,
     weekdaysCronValue,
-    cronString,
   } = useCronString();
 
   return (
@@ -34,8 +32,6 @@ export const CronString = () => {
         <span className="cronstring__value">{weekdaysCronValue}</span>
         <span className="cronstring__name">Weekdays</span>
       </div>
-
-      {/* <CronData /> */}
     </div>
   );
 };
