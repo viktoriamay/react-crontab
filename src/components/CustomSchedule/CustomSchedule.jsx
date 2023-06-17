@@ -28,23 +28,26 @@ export const CustomSchedule = () => {
   };
 
   return (
-    <div className='content'>
-      <h2 className='content__title'>Custom Schedule</h2>
-      <div className='content__grid'>
-
-      <Time />
-      <Weekdays />
-      <Months />
-      <Monthdays />
+    <div className="content">
+      <h2 className="content__title">Custom Schedule</h2>
+      <div className="content__grid">
+        <Time />
+        <Weekdays />
+        <Months />
+        <Monthdays />
       </div>
-      <button className='content__selector_button content__selector_button_custom' onClick={handleClearSchedule}>Clear Schedule</button>
-      <div className='content__intervals'>
-
-      <MinutesInterval />
-      <HoursInterval />
-      <WeekdaysInterval />
-      <MonthdaysInterval />
-      <MonthsInterval />
+      <button
+        className="content__selector_button content__selector_button_custom"
+        onClick={handleClearSchedule}
+      >
+        Clear Schedule
+      </button>
+      <div className="content__intervals">
+        <MinutesInterval />
+        <HoursInterval />
+        <WeekdaysInterval />
+        <MonthdaysInterval />
+        <MonthsInterval />
       </div>
     </div>
   );

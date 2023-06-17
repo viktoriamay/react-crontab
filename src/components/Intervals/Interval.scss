@@ -1,45 +1,39 @@
 .interval {
-
   &__item {
-    box-shadow: -5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94, 104, 121, 0.148);
+    box-shadow: -5px -5px 9px rgba(255, 255, 255, 0.45),
+      5px 5px 9px rgba(94, 104, 121, 0.148);
     border-radius: 8px;
     overflow: hidden;
-    // display: inline-block;
-
   }
+
   &__input {
+    padding: 0.5rem 0.2rem 0.5rem 1rem;
     background-color: transparent;
     outline: none;
     border: none;
-    // box-shadow: -5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94, 104, 121, 0.148);
-    padding: 0.5rem 0.2rem 0.5rem 1rem;
     appearance: none;
-
     box-shadow: -5px -5px 9px rgba(255, 255, 255, 0.45),
-        5px 5px 9px rgba(94, 104, 121, 0.148);
-      border-radius: 8px;
-      overflow: hidden;
-      // width: 100%;
+      5px 5px 9px rgba(94, 104, 121, 0.148);
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   &__minutes {
     width: 150px;
-
   }
 
   &__button {
+    padding: 0.6rem 1rem;
     background-color: transparent;
     outline: none;
     border: none;
-    box-shadow: -3px -3px 9px rgba(255,255,255,0.45), 3px 3px 9px rgba(94, 104, 121, 0.148);
-
-    padding: 0.6rem 1rem;
+    box-shadow: -3px -3px 9px rgba(255, 255, 255, 0.45),
+      3px 3px 9px rgba(94, 104, 121, 0.148);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
       background-color: #f3d528cb;
-      // background-image: linear-gradient(to top, #50cc7f 0%, #f5d100 100%);
       color: rgb(73, 73, 73);
     }
   }

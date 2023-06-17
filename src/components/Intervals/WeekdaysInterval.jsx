@@ -15,8 +15,8 @@ export const WeekdaysInterval = () => {
     <>
       <input
         type="number"
-        name="interval"
-        id="interval"
+        name="weekdaysInterval"
+        id="weekdaysInterval"
         className="interval__input"
         min="0"
         max="150"

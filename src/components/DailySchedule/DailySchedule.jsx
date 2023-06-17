@@ -19,7 +19,7 @@ export const DailySchedule = () => {
     selectedMinutes.length === 0 || selectedMinutes.length === 59
       ? 'every minute'
       : selectedMinutes.map((minute) => minute.title).join(', ') + ' minutes';
-      
+
   return (
     <div className="content">
       <h2 className="content__title">
