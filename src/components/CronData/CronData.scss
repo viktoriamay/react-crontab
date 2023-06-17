@@ -21,40 +21,41 @@
   &__list {
     display: flex;
     flex-direction: column;
+    gap: 0.8rem;
     justify-content: center;
     align-items: center;
-    gap: 0.8rem;
     margin-bottom: 14vh;
   }
 
   &__item {
-    width: 200px;
     display: flex;
     justify-content: space-between;
+    padding: 0 0.6rem 0 0;
+    width: 200px;
+    font-family: 'Manrope', sans-serif;
     box-shadow: -3px -3px 9px rgba(255, 255, 255, 0.45),
       3px 3px 9px rgba(94, 104, 121, 0.148);
     border-radius: 8px;
-    padding: 0 0.6rem 0 0;
-    font-family: 'Manrope', sans-serif;
   }
 
   &__name {
+    width: 85%;
+    height: 100%;
+    padding: 0.6rem 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0.6rem 1rem;
     text-align: left;
     cursor: cell;
-    width: 85%;
-    height: 100%;
   }
 
   &__delete_button {
-    background: transparent;
     position: relative;
-    border: none;
     padding: 0 5px;
+    background: transparent;
+    border: none;
     cursor: pointer;
+
     &::before {
       position: absolute;
       content: '';
@@ -71,12 +72,12 @@
 
     &::after {
       position: absolute;
-      border-radius: 1px;
       content: '';
       top: 40%;
       right: 0;
       width: 20px;
       height: 3px;
+      border-radius: 1px;
       background-color: #0000000f;
       transform: rotate(-45deg);
       box-shadow: inset -5px -5px 9px rgba(255, 255, 255, 0.45),
@@ -85,10 +86,10 @@
   }
 
   &__copy {
-    color: #878787;
     margin-top: 1rem;
-    font-size: 12px;
     max-width: 200px;
+    color: #878787;
+    font-size: 12px;
     text-align: left;
   }
 }
