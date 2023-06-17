@@ -4,8 +4,8 @@ import { Time } from "../Time/Time"
 
 export const MonthlySchedule = () => {
   return (
-    <div>
-      <h2>Every {'day / '} at {} and {}</h2>
+    <div className="content">
+      <h2 className="content__title">Monthly schedule</h2>
       <Months />
       <Monthdays />
       <Time />

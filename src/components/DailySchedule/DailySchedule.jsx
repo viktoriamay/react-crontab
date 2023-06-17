@@ -21,8 +21,8 @@ export const DailySchedule = () => {
       : selectedMinutes.map((minute) => minute.title).join(', ') + ' minutes';
       
   return (
-    <div className="daily">
-      <h2 className="daily__title">
+    <div className="content">
+      <h2 className="content__title">
         Every day at {hoursString} and {minutesString}
       </h2>
       <Time />

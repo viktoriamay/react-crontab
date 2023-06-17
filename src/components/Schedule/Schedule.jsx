@@ -12,6 +12,7 @@ import { clearHoursValue } from '../../storage/actions/hoursActions';
 import { clearMonthdaysValue } from '../../storage/actions/monthdaysActions';
 import { clearMonthsValue } from '../../storage/actions/monthsActions';
 import { clearWeekdayValue } from '../../storage/actions/weekdaysActions';
+import './Schedule.scss'
 
 export const Schedule = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -29,37 +30,37 @@ export const Schedule = () => {
 
   const tabs = [
     {
-      label: 'IntervalSchedule',
+      label: 'Interval',
       content: <IntervalSchedule />,
     },
     {
-      label: '<DailySchedule />',
+      label: 'Daily',
       content: <DailySchedule />,
     },
     {
-      label: '<WeeklySchedule />',
+      label: 'Weekly',
       content: <WeeklySchedule />,
     },
     {
-      label: '<MonthlySchedule />',
+      label: 'Monthly',
       content: <MonthlySchedule />,
     },
     {
-      label: '<CustomSchedule />',
+      label: 'Custom',
       content: <CustomSchedule />,
     },
   ];
 
   return (
-    <>
-      <ul className="explore_page__navlink_container">
+    <div className='schedule'>
+      <ul className="schedule__tabs">
         {tabs.map((tab, index) => (
           <li
             key={index}
             className={
               activeTab === index
-                ? `active explore_page__navlink `
-                : `explore_page__navlink `
+                ? `active schedule__tab `
+                : `schedule__tab `
             }
             onClick={() => handleTabClick(index)}
           >
@@ -69,6 +70,6 @@ export const Schedule = () => {
       </ul>
       <div>{tabs[activeTab].content}</div>
       <CronString />
-    </>
+    </div>
   );
 };

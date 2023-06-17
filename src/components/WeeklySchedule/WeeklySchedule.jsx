@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import { hours, minutes, weekDays } from '../../data/data';
 import { Weekdays } from '../Weekdays/Weekdays';
 import { Time } from '../Time/Time';
 
@@ -24,17 +23,17 @@ export const WeeklySchedule = () => {
   const hoursString =
     selectedHours.length === 0 || selectedHours.length === 23
       ? 'every hour'
-      : selectedHours.map((hour) => hour.name).join(', ') + ' hours';
+      : selectedHours.map((hour) => hour.title).join(', ') + ' hours';
 
   const minutesString =
     selectedMinutes.length === 0 || selectedMinutes.length === 59
       ? 'every minute'
-      : selectedMinutes.map((minute) => minute.name).join(', ') + ' minutes';
+      : selectedMinutes.map((minute) => minute.title).join(', ') + ' minutes';
 
   
   return (
-    <div className="weekly">
-      <h2 className="weekly__title">
+    <div className="content">
+      <h2 className="content__title">
         Every {weekDaysString} at {hoursString} and {minutesString}
       </h2>
       <Weekdays />
