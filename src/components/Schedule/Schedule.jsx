@@ -67,7 +67,6 @@ export const Schedule = () => {
         ))}
       </ul>
       <div>{tabs[activeTab].content}</div>
-      <CronString />
     </div>
   );
 };
