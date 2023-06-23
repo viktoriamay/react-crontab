@@ -31,55 +31,104 @@ export const CronData = () => {
   const inputStringMonths = inputData.split(' ')[3];
   const inputStringWeekdays = inputData.split(' ')[4];
 
-  // console.log({inputStringMinutes});
+  console.log({selectedMinutes});
 
   // const str = "1-4,6,8";
-  const selectedMinutess = [];
-  const aaa = minutes.map((m) => m.id);
+  const selectedMinutesInInput = [];
+  const minutesIds = minutes.map((m) => m.id);
 
-  const d = (inputStringMinutes) => {
-    const parts = inputStringMinutes.split(',');
-    for (let i = 0; i < parts.length; i++) {
-      const range = parts[i].split('-');
-      if (range.length === 2) {
-        const start = parseInt(range[0]);
-        const end = parseInt(range[1]);
-        for (let j = start; j <= end; j++) {
-          const minute = minutes.find((m) => m.id === j);
-          if (!aaa.includes(j)) {
-            alert('Введите число от 0 до 59');
-            return;
-          }
-          if (minute) {
-            selectedMinutess.push(minute);
-          }
-        }
-      } else {
-        const num = parseInt(parts[i]);
-        if (num < 0 || num > 59) {
+  // const d = (inputStringMinutes) => {
+  //   const minutesPartComma = inputStringMinutes.split(',');
+  //   for (let i = 0; i < minutesPartComma.length; i++) {
+  //     const minutesPartDash = minutesPartComma[i].split('-');
+  //     if (minutesPartDash.length === 2) {
+  //       const startPartDash = parseInt(minutesPartDash[0]);
+  //       const endPartDash = parseInt(minutesPartDash[1]);
+  //       for (let j = startPartDash; j <= endPartDash; j++) {
+  //         const minute = minutes.find((m) => m.id === j);
+  //         if (!minutesIds.includes(j)) {
+  //           alert('Введите число от 0 до 59');
+  //           return;
+  //         }
+  //         if (minute) {
+  //           selectedMinutesInInput.push(minute);
+
+  //         }
+  //       }
+  //     } else {
+  //       const num = parseInt(minutesPartComma[i]);
+  //       if (num < 0 || num > 59) {
+  //         alert('Введите число от 0 до 59');
+  //         return;
+  //       }
+  //       const minute = minutes.find((m) => m.id === num);
+  //       if (minute) {
+  //         selectedMinutesInInput.push(minute);
+
+  //       }
+  //     }
+  //   }
+
+  // };
+
+  const uniqueMinutes = [];
+
+  console.log(minutesIds[0]);
+
+const d = (inputStringMinutes) => {
+
+  if (inputStringMinutes === '*') {
+    return
+  }
+
+  const minutesPartComma = inputStringMinutes.split(',');
+  for (let i = 0; i < minutesPartComma.length; i++) {
+    const minutesPartDash = minutesPartComma[i].split('-');
+    
+    if (minutesPartDash.length === 2) {
+      
+      const startPartDash = parseInt(minutesPartDash[0]);
+      const endPartDash = parseInt(minutesPartDash[1]);
+
+      if (!startPartDash && (endPartDash * -1 < minutesIds[0])) {
+        alert('no')
+      }
+      for (let j = startPartDash; j <= endPartDash; j++) {
+        const minute = minutes.find((m) => m.id === j);
+        if (!minute) {
           alert('Введите число от 0 до 59');
           return;
         }
-        const minute = minutes.find((m) => m.id === num);
+        if (uniqueMinutes.includes(j)) {
+          alert('Значения минут должны быть уникальными');
+          return;
+        }
+        uniqueMinutes.push(j);
         if (minute) {
-          selectedMinutess.push(minute);
+          selectedMinutesInInput.push(minute);
         }
       }
+    } else {
+      const num = parseInt(minutesPartComma[i]);
+      
+      const minute = minutes.find((m) => m.id === num);
+      if (minute || inputStringMinutes === '*' || inputStringMinutes === '' ) {
+        selectedMinutesInInput.push(minute || inputStringMinutes === '*' || inputStringMinutes === '');
+      }
+      else if (!minute) {
+        alert('Введите число от 0 до 59');
+        return;
+      }
+      if (uniqueMinutes.includes(num)) {
+        alert('Значения минут должны быть уникальными');
+        return;
+      }
+      uniqueMinutes.push(num);
     }
-  };
+  }
+};
 
-  d(inputStringMinutes);
-  // console.log({selectedMinutess});
-
-  // const inp = inputStringMinutes.split('')
-  // const y = inp[inp.length - 1];
-  const inp = inputStringMinutes.split()[inputStringMinutes.length - 1];
-
-  const iii = inputStringMinutes.charAt(0);
-
-  console.log({ iii }, { inp });
-
-  // console.log(iii === '*');
+ 
 
   const handleScheduleLoad = () => {
     // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то
@@ -102,7 +151,9 @@ export const CronData = () => {
     //
     // }
     else {
-      dispatch(changeMinutesValue(selectedMinutess));
+  d(inputStringMinutes);
+
+      dispatch(changeMinutesValue(selectedMinutesInInput));
       setInputData('');
     }
     // setInputData(cronString);
