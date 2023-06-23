@@ -3,7 +3,13 @@ import { useCronString } from '../../hooks/useCronString';
 import { useCopyToClipboard } from 'react-use';
 import './CronData.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeHoursIntervalValue, changeMinutesIntervalValue, changeMonthdaysIntervalValue, changeMonthsIntervalValue, changeWeekdaysIntervalValue } from '../../storage/actions/intervalActions';
+import {
+  changeHoursIntervalValue,
+  changeMinutesIntervalValue,
+  changeMonthdaysIntervalValue,
+  changeMonthsIntervalValue,
+  changeWeekdaysIntervalValue,
+} from '../../storage/actions/intervalActions';
 import { changeMinutesValue } from '../../storage/actions/minutesActions';
 import { minutes } from '../../data/data';
 
@@ -75,7 +81,7 @@ export const CronData = () => {
 
   // console.log(minutesIds[0]);
 
-  const d = (inputStringMinutes) => {
+  /* const d = () => {
     if (inputStringMinutes === '*') {
       return;
     }
@@ -125,10 +131,10 @@ export const CronData = () => {
         uniqueMinutes.push(num);
       }
     }
-  };
+  }; */
 
   const intervalScheduleChange = (inputStringValue, dispatchChangeValue) => {
-    if (inputStringValue.includes('/')) {
+    // if (inputStringValue.includes('/')) {
     const first = inputStringValue.split('/')[0];
     const last = +inputStringValue.split('/')[1];
     // и если это число больше нуля (тк нельзя ввести отрицательный интервал) и первое значение содержит * то мы диспатчим значение минутсИнтервал
@@ -139,12 +145,218 @@ export const CronData = () => {
     } else {
       alert('invalid format');
     }
-  };}
+  };
+  // };
+
+  // const validateSelectedOptions = (
+  //   inputStringValue,
+  //   optionsDataIds,
+  //   optionsData
+  // ) => {
+  //   if (inputStringValue === '*') {
+  //     return;
+  //   }
+
+  //   const uniqueInputData = [];
+
+  //   const inputValuePartComma = inputStringValue.split(',');
+  //   for (let i = 0; i < inputValuePartComma.length; i++) {
+  //     const inputValuePartDash = inputValuePartComma[i].split('-');
+
+  //     if (inputValuePartDash.length === 2) {
+  //       const startPartDash = parseInt(inputValuePartDash[0]);
+  //       const endPartDash = parseInt(inputValuePartDash[1]);
+
+  //       if (!startPartDash && endPartDash * -1 < optionsDataIds[0]) {
+  //         alert('no');
+  //         return
+  //       }
+  //       for (let j = startPartDash; j <= endPartDash; j++) {
+  //         const optionData = optionsData.find((m) => m.id === j);
+  //         // if (!optionData) {
+  //         //   alert('Введите число от 0 до 59');
+  //         //   return;
+  //         // }
+  //         if (uniqueInputData.includes(j)) {
+  //           alert('Значения минут должны быть уникальными');
+  //           return;
+  //         }
+  //         // uniqueInputData.push(j);
+  //         if (optionData) {
+  //           selectedMinutesInInput.push(optionData);
+  //     dispatch(changeMinutesValue(selectedMinutesInInput));
+  //     setInputData('');
+
+  //         } else {
+  //           alert('Введите число от 0 до 59');
+  //           return;
+  //         }
+  //       }
+  //     } else {
+  //       const num = parseInt(inputValuePartComma[i]);
+
+  //       const optionData = optionsData.find((m) => m.id === num);
+  //       if (optionData || inputStringValue === '*' || inputStringValue === '') {
+  //         selectedMinutesInInput.push(
+  //           optionData || inputStringValue === '*' || inputStringValue === ''
+  //         );
+  //     dispatch(changeMinutesValue(selectedMinutesInInput));
+  //     setInputData('');
+
+  //     // uniqueInputData.push(num);
+  //       } else if (!optionData) {
+  //         alert('Введите число от 0 до 59');
+  //         return;
+  //       }
+  //       if (uniqueInputData.includes(num)) {
+  //         alert('Значения минут должны быть уникальными');
+  //         return;
+  //       }
+  //     }
+  //   }
+  // };
+
+  // const validateSelectedOptions = (
+  //   inputStringValue,
+  //   optionsDataIds,
+  //   optionsData
+  // ) => {
+  //   if (inputStringValue === '*') {
+  //     return;
+  //   }
+
+  //   const uniqueInputData = [];
+
+  //   const inputValuePartComma = inputStringValue.split(',');
+  //   for (let i = 0; i < inputValuePartComma.length; i++) {
+  //     const inputValuePartDash = inputValuePartComma[i].split('-');
+
+  //     if (inputValuePartDash.length === 2) {
+  //       const startPartDash = parseInt(inputValuePartDash[0]);
+  //       const endPartDash = parseInt(inputValuePartDash[1]);
+
+  //       if (!startPartDash && endPartDash * -1 < optionsDataIds[0]) {
+  //         alert('no');
+  //         return;
+  //       }
+  //       for (let j = startPartDash; j <= endPartDash; j++) {
+  //         const optionData = optionsData.find((m) => m.id === j);
+  //         if (!optionData) {
+  //           alert('Введите число от 0 до 59');
+  //           return;
+  //         }
+  //         if (uniqueInputData.includes(j)) {
+  //           alert('Значения минут должны быть уникальными');
+  //           return;
+  //         }
+  //         uniqueInputData.push(j);
+  //         if (optionData) {
+  //           selectedMinutesInInput.push(optionData);
+  //           dispatch(changeMinutesValue(selectedMinutesInInput));
+  //   setInputData('');
+
+  //         }
+  //       }
+  //     } else {
+  //       const num = parseInt(inputValuePartComma[i]);
+
+  //       const optionData = optionsData.find((m) => m.id === num);
+  //       if (optionData || inputStringValue === '*' || inputStringValue === '') {
+  //         if (uniqueInputData.includes(num)) {
+  //           alert('Значения минут должны быть уникальными');
+  //           return;
+  //         }
+  //         uniqueInputData.push(num);
+  //         selectedMinutesInInput.push(
+  //           optionData || inputStringValue === '*' || inputStringValue === ''
+  //         );
+  //         dispatch(changeMinutesValue(selectedMinutesInInput));
+  //   setInputData('');
+
+  //       } else {
+  //         alert('Введите число от 0 до 59');
+  //         return;
+  //       }
+  //     }
+  //   }
+  //   // setInputData(inputStringValue);
+  // };
+
+  const validateSelectedOptions = (
+    inputStringValue,
+    optionsDataIds,
+    optionsData
+  ) => {
+    if (inputStringValue === '*') {
+      return;
+    }
+
+    const uniqueInputData = [];
+
+    const inputValuePartComma = inputStringValue.split(',');
+    for (let i = 0; i < inputValuePartComma.length; i++) {
+      
+      const inputValuePartDash = inputValuePartComma[i].split('-');
+
+      if (inputValuePartDash.length === 2) {
+
+        const startPartDash = parseInt(inputValuePartDash[0]);
+        const endPartDash = parseInt(inputValuePartDash[1]);
+
+        if (!startPartDash && endPartDash * -1 < optionsDataIds[0]) {
+          alert('no');
+          return;
+        }
+        for (let j = startPartDash; j <= endPartDash; j++) {
+          const optionData = optionsData.find((m) => m.id === j);
+          if (!optionData) {
+            alert('Введите число от 0 до 59');
+            return;
+          }
+          if (uniqueInputData.includes(j)) {
+            alert('Значения минут должны быть уникальными');
+            return;
+          }
+          uniqueInputData.push(j);
+          if (optionData) {
+            selectedMinutesInInput.push(optionData);
+            // setInputData('');
+            // dispatch(changeMinutesValue(selectedMinutesInInput));
+            // // setInputData(uniqueInputData.join(','));
+            // setInputData('');
+          }
+        }
+      } else {
+        const num = parseInt(inputValuePartComma[i]);
+
+        const optionData = optionsData.find((m) => m.id === num);
+        if (optionData || inputStringValue === '*' || inputStringValue === '') {
+          if (uniqueInputData.includes(num)) {
+            alert('Значения минут должны быть уникальными');
+            return;
+          }
+          uniqueInputData.push(num);
+          selectedMinutesInInput.push(
+            optionData || inputStringValue === '*' || inputStringValue === ''
+          );
+          //       dispatch(changeMinutesValue(selectedMinutesInInput));
+          // // setInputData(uniqueInputData.join(','));
+          // setInputData('');
+        } else {
+          alert('Введите число от 0 до 59');
+          return;
+        }
+      }
+    }
+    dispatch(changeMinutesValue(selectedMinutesInInput));
+    // setInputData(uniqueInputData.join(','));
+    setInputData('');
+  };
 
   const handleScheduleLoad = () => {
     // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то
     // if (inputStringMinutes.includes('/')) {
-      /* // получаем первое значение и последнее
+    /* // получаем первое значение и последнее
       const first = inputStringMinutes.split('/')[0];
       const last = +inputStringMinutes.split('/')[1];
       // и если это число больше нуля (тк нельзя ввести отрицательный интервал) и первое значение содержит * то мы диспатчим значение минутсИнтервал
@@ -155,26 +367,35 @@ export const CronData = () => {
       } else {
         alert('invalid format');
       } */
+    if (
+      inputStringMinutes.includes('/') ||
+      inputStringHours.includes('/') ||
+      inputStringDays.includes('/') ||
+      inputStringMonths.includes('/') ||
+      inputStringWeekdays.includes('/')
+    ) {
+      intervalScheduleChange(inputStringMinutes, changeMinutesIntervalValue);
+      intervalScheduleChange(inputStringHours, changeHoursIntervalValue);
+      intervalScheduleChange(inputStringDays, changeMonthdaysIntervalValue);
+      intervalScheduleChange(inputStringMonths, changeMonthsIntervalValue);
+      intervalScheduleChange(inputStringWeekdays, changeWeekdaysIntervalValue);
+    }
 
-      intervalScheduleChange(inputStringMinutes, changeMinutesIntervalValue)
-      intervalScheduleChange(inputStringHours, changeHoursIntervalValue)
-      intervalScheduleChange(inputStringDays, changeMonthdaysIntervalValue)
-      intervalScheduleChange(inputStringMonths, changeMonthsIntervalValue)
-      intervalScheduleChange(inputStringWeekdays, changeWeekdaysIntervalValue)
-
-
-      // в ином случае работаем с форматом минут
+    // в ином случае работаем с форматом минут
+    else {
+      validateSelectedOptions(inputStringMinutes, minutesIds, minutes);
+    }
     // }
     // else if (!inputStringMinutes.indexOf('*/') + 1) {
     // alert('invalid format');
     //
     // }
-    /* else {
-      d(inputStringMinutes);
+    // else {
+    //   d(inputStringMinutes);
 
-      dispatch(changeMinutesValue(selectedMinutesInInput));
-      setInputData('');
-    } */
+    //   dispatch(changeMinutesValue(selectedMinutesInInput));
+    //   setInputData('');
+    // }
     // setInputData(cronString);
   };
 
