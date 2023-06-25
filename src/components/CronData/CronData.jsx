@@ -11,8 +11,11 @@ import {
   changeWeekdaysIntervalValue,
 } from '../../storage/actions/intervalActions';
 import { changeMinutesValue } from '../../storage/actions/minutesActions';
-import { hours, minutes, weekDays } from '../../data/data';
+import { hours, minutes, monthdays, months, weekDays } from '../../data/data';
 import { changeHoursValue } from '../../storage/actions/hoursActions';
+import { changeMonthdaysValue } from '../../storage/actions/monthdaysActions';
+import { changeMonthsValue } from '../../storage/actions/monthsActions';
+import { changeWeekdayValue } from '../../storage/actions/weekdaysActions';
 
 export const CronData = () => {
   const { cronString } = useCronString();
@@ -44,6 +47,10 @@ export const CronData = () => {
   // const str = "1-4,6,8";
   const selectedMinutesInInput = [];
   const selectedHoursInInput = [];
+  const selectedDaysInInput = [];
+  const selectedMonthsInInput = [];
+  const selectedWeekdaysInInput = [];
+
   const datasIds = (data) => {
     return data.map((m) => m.id);
   };
@@ -495,27 +502,34 @@ export const CronData = () => {
         selectedMinutesInInput
       );
 
-      // ll();
-      // validateSelectedOptions(
-      //   inputStringHours,
-      //   datasIds(hours),
-      //   hours,
-      //   changeHoursValue,
-      //   selectedHoursInInput
-      // );
-    }
-    // }
-    // else if (!inputStringMinutes.indexOf('*/') + 1) {
-    // alert('invalid format');
-    //
-    // }
-    // else {
-    //   d(inputStringMinutes);
+      validateSelectedOptions(
+        inputStringHours,
+        hours,
+        changeHoursValue,
+        selectedHoursInInput
+      );
 
-    //   dispatch(changeMinutesValue(selectedMinutesInInput));
-    //   setInputData('');
-    // }
-    // setInputData(cronString);
+      validateSelectedOptions(
+        inputStringDays,
+        monthdays,
+        changeMonthdaysValue,
+        selectedDaysInInput
+      );
+
+      validateSelectedOptions(
+        inputStringMonths,
+        months,
+        changeMonthsValue,
+        selectedMonthsInInput
+      );
+
+      validateSelectedOptions(
+        inputStringWeekdays,
+        weekDays,
+        changeWeekdayValue,
+        selectedWeekdaysInInput
+      );
+    }
   };
 
   useEffect(() => {
