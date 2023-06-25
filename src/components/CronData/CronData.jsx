@@ -11,7 +11,8 @@ import {
   changeWeekdaysIntervalValue,
 } from '../../storage/actions/intervalActions';
 import { changeMinutesValue } from '../../storage/actions/minutesActions';
-import { minutes } from '../../data/data';
+import { hours, minutes, weekDays } from '../../data/data';
+import { changeHoursValue } from '../../storage/actions/hoursActions';
 
 export const CronData = () => {
   const { cronString } = useCronString();
@@ -39,9 +40,13 @@ export const CronData = () => {
 
   // console.log({selectedMinutes});
 
+  // console.log({inputData});
   // const str = "1-4,6,8";
   const selectedMinutesInInput = [];
-  const minutesIds = minutes.map((m) => m.id);
+  const selectedHoursInInput = [];
+  const datasIds = (data) => {
+    return data.map((m) => m.id);
+  };
 
   // const d = (inputStringMinutes) => {
   //   const minutesPartComma = inputStringMinutes.split(',');
@@ -282,76 +287,160 @@ export const CronData = () => {
   //   // setInputData(inputStringValue);
   // };
 
-  const validateSelectedOptions = (
-    inputStringValue,
-    optionsDataIds,
-    optionsData
-  ) => {
-    if (inputStringValue === '*') {
-      return;
-    }
+  // ----------- РАБОЧЕЕ ----------------
+  // const validateSelectedOptions = (
+  //   inputStringValue,
+  //   optionsDataIds,
+  //   optionsData,dispatchChangeValue,selectedMinutesInInput
+  // ) => {
+  //   if (inputStringValue === '*') {
+  //     return;
+  //   }
 
-    const uniqueInputData = [];
+  //   const uniqueInputData = [];
 
-    const inputValuePartComma = inputStringValue.split(',');
-    for (let i = 0; i < inputValuePartComma.length; i++) {
-      
-      const inputValuePartDash = inputValuePartComma[i].split('-');
+  //   const inputValuePartComma = inputStringValue.split(',');
+  //   for (let i = 0; i < inputValuePartComma.length; i++) {
 
-      if (inputValuePartDash.length === 2) {
+  //     const inputValuePartDash = inputValuePartComma[i].split('-');
 
-        const startPartDash = parseInt(inputValuePartDash[0]);
-        const endPartDash = parseInt(inputValuePartDash[1]);
+  //     if (inputValuePartDash.length === 2) {
 
-        if (!startPartDash && endPartDash * -1 < optionsDataIds[0]) {
-          alert('no');
-          return;
-        }
-        for (let j = startPartDash; j <= endPartDash; j++) {
-          const optionData = optionsData.find((m) => m.id === j);
-          if (!optionData) {
-            alert('Введите число от 0 до 59');
-            return;
-          }
-          if (uniqueInputData.includes(j)) {
-            alert('Значения минут должны быть уникальными');
-            return;
-          }
-          uniqueInputData.push(j);
-          if (optionData) {
-            selectedMinutesInInput.push(optionData);
-            // setInputData('');
-            // dispatch(changeMinutesValue(selectedMinutesInInput));
-            // // setInputData(uniqueInputData.join(','));
-            // setInputData('');
-          }
-        }
-      } else {
-        const num = parseInt(inputValuePartComma[i]);
+  //       const startPartDash = parseInt(inputValuePartDash[0]);
+  //       const endPartDash = parseInt(inputValuePartDash[1]);
 
-        const optionData = optionsData.find((m) => m.id === num);
-        if (optionData || inputStringValue === '*' || inputStringValue === '') {
-          if (uniqueInputData.includes(num)) {
-            alert('Значения минут должны быть уникальными');
-            return;
-          }
-          uniqueInputData.push(num);
-          selectedMinutesInInput.push(
-            optionData || inputStringValue === '*' || inputStringValue === ''
-          );
-          //       dispatch(changeMinutesValue(selectedMinutesInInput));
-          // // setInputData(uniqueInputData.join(','));
-          // setInputData('');
-        } else {
-          alert('Введите число от 0 до 59');
-          return;
-        }
+  //       if (!startPartDash && endPartDash * -1 < optionsDataIds[0]) {
+  //         alert('no');
+  //         return;
+  //       }
+  //       for (let j = startPartDash; j <= endPartDash; j++) {
+  //         const optionData = optionsData.find((m) => m.id === j);
+  //         // if (!optionData) {
+  //         //   alert('Введите число от 0 до 59');
+  //         //   return;
+  //         // }
+  //         if (uniqueInputData.includes(j)) {
+  //           alert('Значения минут должны быть уникальнымиBBBBBBBBBBB');
+  //           return;
+  //         }
+  //         uniqueInputData.push(j);
+  //         if (optionData) {
+  //           selectedMinutesInInput.push(optionData);
+  //   //         dispatch(dispatchChangeValue(selectedMinutesInInput));
+  //   // setInputData('');
+  //         } else {
+  //           alert('Введите число от 0 до 5999999');
+  //           return inputData
+
+  //         }
+  //       }
+  //     } else {
+  //       const num = parseInt(inputValuePartComma[i]);
+
+  //       const optionData = optionsData.find((m) => m.id === num);
+  //       if (optionData || inputStringValue === '*' || inputStringValue === '') {
+  //         if (uniqueInputData.includes(num)) {
+  //           alert('Значения минут должны быть уникальнымиUUUUUUUUUU');
+  //           return inputData
+  //         } if (!uniqueInputData.includes(num)) {
+
+  //           selectedMinutesInInput.push(
+  //             optionData || inputStringValue === '*' || inputStringValue === ''
+  //           );
+  //     //       dispatch(dispatchChangeValue(selectedMinutesInInput));
+  //     // setInputData('');
+  //         }
+  //         uniqueInputData.push(num);
+
+  //       } else {
+  //         alert('Введите число от 0 до 59');
+  //         return;
+  //       }
+  //     }
+  //   }
+  //   // dispatch(changeMinutesValue(selectedMinutesInInput));
+  //   // dispatch(changeMinutesValue(dispatchChangeValue));
+  //   /* dispatch(dispatchChangeValue(selectedMinutesInInput));
+  //   setInputData(''); */
+  //   dispatch(dispatchChangeValue(selectedMinutesInInput));
+  //     setInputData('');
+  // };
+
+  const inputString = '1-5';
+  const range = inputStringMinutes.split('-');
+  const resultArray = [];
+  const ll = () => {
+    minutes.forEach((day) => {
+      if (day.title === range[0] || day.title === range[1]) {
+        resultArray.push(day);
+      } else if (
+        day.id > minutes.find((item) => item.title === range[0]).id &&
+        day.id < minutes.find((item) => item.title === range[1]).id
+      ) {
+        resultArray.push(day);
       }
-    }
-    dispatch(changeMinutesValue(selectedMinutesInInput));
-    // setInputData(uniqueInputData.join(','));
-    setInputData('');
+      dispatch(changeMinutesValue(resultArray));
+    });
   };
+  // console.log({ range });
+  // console.log({ resultArray });
+
+  // ----------- РАБОЧЕЕ вверху ----------------
+
+  const [error, setError] = useState(false)
+
+  const validateSelectedOptions = (
+  inputStringValue,
+  optionsData,
+  dispatchChangeValue,
+  selectedMinutesInInput
+) => {
+  if (inputStringValue === '*') {
+    return;
+  }
+
+  // let hasError = false; // флаг для проверки ошибок
+  const inputValuePartComma = inputStringValue.split(',');
+  for (let i = 0; i < inputValuePartComma.length; i++) {
+    const inputValuePartDash = inputValuePartComma[i].split('-');
+  
+    if (inputValuePartDash.length === 2) {
+      console.log({ inputValuePartDash }); // добавлено отладочное сообщение
+      console.log({ optionsData }); // добавлено отладочное сообщение
+      const startPartDash = inputValuePartDash[0];
+      const endPartDash = inputValuePartDash[1];
+      
+      optionsData.forEach((day) => {
+        if (
+          !optionsData.some((d) => d.title === startPartDash) ||
+          !optionsData.some((d) => d.title === endPartDash)
+        ) {
+          setError(true)
+        } else {
+          if (day.title === startPartDash || day.title === endPartDash) {
+            selectedMinutesInInput.push(day);
+          } else if (
+            day.id >
+              optionsData.find((item) => item.title === startPartDash).id &&
+            day.id <
+              optionsData.find((item) => item.title === endPartDash).id
+          ) {
+            selectedMinutesInInput.push(day);
+          }
+        }
+      });
+      console.log({ error });
+      console.log({ selectedMinutesInInput });
+    }
+  }
+
+  if (error) { // вызов alert, если обнаружена ошибка
+    alert('Invalid input value');
+  } else {
+    dispatch(dispatchChangeValue(selectedMinutesInInput));
+    setInputData('');
+  }
+};
 
   const handleScheduleLoad = () => {
     // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то
@@ -383,7 +472,21 @@ export const CronData = () => {
 
     // в ином случае работаем с форматом минут
     else {
-      validateSelectedOptions(inputStringMinutes, minutesIds, minutes);
+      validateSelectedOptions(
+        inputStringMinutes,
+        minutes,
+        changeMinutesValue,
+        selectedMinutesInInput
+      );
+
+      // ll();
+      // validateSelectedOptions(
+      //   inputStringHours,
+      //   datasIds(hours),
+      //   hours,
+      //   changeHoursValue,
+      //   selectedHoursInInput
+      // );
     }
     // }
     // else if (!inputStringMinutes.indexOf('*/') + 1) {
