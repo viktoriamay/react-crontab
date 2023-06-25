@@ -3,27 +3,34 @@ import { useCronString } from '../../hooks/useCronString';
 import { useCopyToClipboard } from 'react-use';
 import './CronData.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeMinutesIntervalValue } from '../../storage/actions/intervalActions';
+import {
+  changeHoursIntervalValue,
+  changeMinutesIntervalValue,
+  changeMonthdaysIntervalValue,
+  changeMonthsIntervalValue,
+  changeWeekdaysIntervalValue,
+} from '../../storage/actions/intervalActions';
 import { changeMinutesValue } from '../../storage/actions/minutesActions';
-import { minutes } from '../../data/data';
+import { hours, minutes, monthdays, months, weekDays } from '../../data/data';
+import { changeHoursValue } from '../../storage/actions/hoursActions';
+import { changeMonthdaysValue } from '../../storage/actions/monthdaysActions';
+import { changeMonthsValue } from '../../storage/actions/monthsActions';
+import { changeWeekdayValue } from '../../storage/actions/weekdaysActions';
 
 export const CronData = () => {
+  const dispatch = useDispatch();
+
+  const selectedMinutes = useSelector(
+    (state) => state.minutesOptions.selectedMinutes
+  );
+
   const { cronString } = useCronString();
 
   const [state, copyToClipboard] = useCopyToClipboard();
 
   const [inputData, setInputData] = useState('');
   const [savedData, setSavedData] = useState([]);
-
-  const handleScheduleSave = () => {
-    setInputData(cronString);
-  };
-  const dispatch = useDispatch();
-  const selectedMinutes = useSelector(
-    (state) => state.minutesOptions.selectedMinutes
-  );
-
-  // console.log({selectedMinutes});
+  const [error, setError] = useState(false);
 
   const inputStringMinutes = inputData.split(' ')[0];
   const inputStringHours = inputData.split(' ')[1];
@@ -31,81 +38,172 @@ export const CronData = () => {
   const inputStringMonths = inputData.split(' ')[3];
   const inputStringWeekdays = inputData.split(' ')[4];
 
-  // console.log({inputStringMinutes});
+  const selectedMinutesInInput = [];
+  const selectedHoursInInput = [];
+  const selectedDaysInInput = [];
+  const selectedMonthsInInput = [];
+  const selectedWeekdaysInInput = [];
 
-  // const str = "1-4,6,8";
-  const selectedMinutess = [];
-  const aaa = minutes.map((m) => m.id);
+  const handleScheduleSave = () => {
+    setInputData(cronString);
+  };
 
-  const d = (inputStringMinutes) => {
-    const parts = inputStringMinutes.split(',');
-    for (let i = 0; i < parts.length; i++) {
-      const range = parts[i].split('-');
-      if (range.length === 2) {
-        const start = parseInt(range[0]);
-        const end = parseInt(range[1]);
-        for (let j = start; j <= end; j++) {
-          const minute = minutes.find((m) => m.id === j);
-          if (!aaa.includes(j)) {
-            alert('Введите число от 0 до 59');
-            return;
-          }
-          if (minute) {
-            selectedMinutess.push(minute);
-          }
-        }
+  const intervalScheduleChange = (inputStringValue, dispatchChangeValue) => {
+    if (inputStringValue.includes('/')) {
+      const first = inputStringValue.split('/')[0];
+      const last = +inputStringValue.split('/')[1];
+
+      if (last > 0 && first === '*') {
+        dispatch(dispatchChangeValue(last));
+        setInputData('');
       } else {
-        const num = parseInt(parts[i]);
-        if (num < 0 || num > 59) {
-          alert('Введите число от 0 до 59');
-          return;
-        }
-        const minute = minutes.find((m) => m.id === num);
-        if (minute) {
-          selectedMinutess.push(minute);
-        }
+        alert('Invalid interval value');
       }
     }
   };
 
-  d(inputStringMinutes);
-  // console.log({selectedMinutess});
-
-  // const inp = inputStringMinutes.split('')
-  // const y = inp[inp.length - 1];
-  const inp = inputStringMinutes.split()[inputStringMinutes.length - 1];
-
-  const iii = inputStringMinutes.charAt(0);
-
-  console.log({ iii }, { inp });
-
-  // console.log(iii === '*');
-
-  const handleScheduleLoad = () => {
-    // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то
-    if (inputStringMinutes.includes('/')) {
-      // получаем первое значение и последнее
-      const first = inputStringMinutes.split('/')[0];
-      const last = +inputStringMinutes.split('/')[1];
-      // и если это число больше нуля (тк нельзя ввести отрицательный интервал) и первое значение содержит * то мы диспатчим значение минутсИнтервал
-      if (last > 0 && first === '*') {
-        dispatch(changeMinutesIntervalValue(last));
-        setInputData('');
-        //если нет, то выводим алерт и не позволяем отправить данные
-      } else {
-        alert('invalid format');
-      }
-      // в ином случае работаем с форматом минут
+  const validateSelectedOptions = (
+    inputStringValue,
+    optionsData,
+    dispatchChangeValue,
+    selectedMinutesInInput
+  ) => {
+    if (inputStringValue === '*') {
+      return;
     }
-    // else if (!inputStringMinutes.indexOf('*/') + 1) {
-    // alert('invalid format');
-    //
-    // }
-    else {
-      dispatch(changeMinutesValue(selectedMinutess));
+    if (inputStringValue === '') {
+      return;
+    }
+
+    const inputValuePartComma = inputStringValue.split(',');
+    let hasError = false;
+
+    for (let i = 0; i < inputValuePartComma.length; i++) {
+      const inputValuePartDash = inputValuePartComma[i].split('-');
+
+      if (inputValuePartDash.length === 2) {
+        const startPartDash = inputValuePartDash[0];
+        const endPartDash = inputValuePartDash[1];
+
+        if (
+          !optionsData.some((d) => d.title === startPartDash) ||
+          !optionsData.some((d) => d.title === endPartDash)
+        ) {
+          setError(true);
+          hasError = true;
+        } else {
+          optionsData.forEach((day) => {
+            if (day.title === startPartDash || day.title === endPartDash) {
+              selectedMinutesInInput.push(day);
+            } else if (
+              day.id >
+                optionsData.find((item) => item.title === startPartDash).id &&
+              day.id < optionsData.find((item) => item.title === endPartDash).id
+            ) {
+              selectedMinutesInInput.push(day);
+            }
+          });
+        }
+      } else {
+        const num = inputValuePartComma[i];
+        const optionData = optionsData.find((m) => m.title === num);
+        if (!optionData) {
+          setError(true);
+          hasError = true;
+        } else {
+          if (
+            optionData ||
+            inputStringValue === '*' ||
+            inputStringValue === '' ||
+            0
+          ) {
+            selectedMinutesInInput.push(
+              optionData ||
+                inputStringValue === '*' ||
+                inputStringValue === '' ||
+                0
+            );
+          }
+        }
+      }
+    }
+
+    const hasDuplicates = selectedMinutesInInput.some((item, index) => {
+      return selectedMinutesInInput
+        .filter((_, i) => i !== index)
+        .some((other) => {
+          return item.title === other.title;
+        });
+    });
+
+    if (hasDuplicates) {
+      alert('Duplicate values are not allowed');
+      return;
+    }
+
+    if (hasError) {
+      alert('Invalid input value');
+    } else {
+      dispatch(dispatchChangeValue(selectedMinutesInInput));
       setInputData('');
     }
-    // setInputData(cronString);
+
+    setError(false);
+  };
+
+  const handleScheduleLoad = () => {
+    // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то работаем с форматом интервалов
+
+    if (
+      inputStringMinutes.includes('/') ||
+      inputStringHours.includes('/') ||
+      inputStringDays.includes('/') ||
+      inputStringMonths.includes('/') ||
+      inputStringWeekdays.includes('/')
+    ) {
+      intervalScheduleChange(inputStringMinutes, changeMinutesIntervalValue);
+      intervalScheduleChange(inputStringHours, changeHoursIntervalValue);
+      intervalScheduleChange(inputStringDays, changeMonthdaysIntervalValue);
+      intervalScheduleChange(inputStringMonths, changeMonthsIntervalValue);
+      intervalScheduleChange(inputStringWeekdays, changeWeekdaysIntervalValue);
+    }
+    // в ином случае работаем с форматом минут
+    else {
+      validateSelectedOptions(
+        inputStringMinutes,
+        minutes,
+        changeMinutesValue,
+        selectedMinutesInInput
+      );
+
+      validateSelectedOptions(
+        inputStringHours,
+        hours,
+        changeHoursValue,
+        selectedHoursInInput
+      );
+
+      validateSelectedOptions(
+        inputStringDays,
+        monthdays,
+        changeMonthdaysValue,
+        selectedDaysInInput
+      );
+
+      validateSelectedOptions(
+        inputStringMonths,
+        months,
+        changeMonthsValue,
+        selectedMonthsInInput
+      );
+
+      validateSelectedOptions(
+        inputStringWeekdays,
+        weekDays,
+        changeWeekdayValue,
+        selectedWeekdaysInInput
+      );
+    }
   };
 
   useEffect(() => {
@@ -143,15 +241,15 @@ export const CronData = () => {
         />
         <div className="crondata__buttons">
           <button
-            className="content__selector_button 
-            
-            "
-            onClick={handleScheduleLoad}
+            className="content__selector_button"
+            onClick={
+              inputData === '' ? setInputData('* * * * *') : handleScheduleLoad
+            }
           >
             Load
           </button>
           <button
-            className="content__selector_button "
+            className="content__selector_button"
             onClick={handleScheduleSave}
           >
             Save

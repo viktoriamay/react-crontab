@@ -45,9 +45,9 @@ export const CustomSchedule = () => {
       <div className="content__intervals">
         <MinutesInterval />
         <HoursInterval />
-        <WeekdaysInterval />
         <MonthdaysInterval />
         <MonthsInterval />
+        <WeekdaysInterval />
       </div>
     </div>
   );
