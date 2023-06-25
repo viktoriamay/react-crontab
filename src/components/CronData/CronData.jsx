@@ -146,7 +146,7 @@ export const CronData = () => {
   }; */
 
   const intervalScheduleChange = (inputStringValue, dispatchChangeValue) => {
-    // if (inputStringValue.includes('/')) {
+    if (inputStringValue.includes('/')) {
     const first = inputStringValue.split('/')[0];
     const last = +inputStringValue.split('/')[1];
     // и если это число больше нуля (тк нельзя ввести отрицательный интервал) и первое значение содержит * то мы диспатчим значение минутсИнтервал
@@ -155,10 +155,11 @@ export const CronData = () => {
       setInputData('');
       //если нет, то выводим алерт и не позволяем отправить данные
     } else {
-      alert('invalid format');
+      alert('invalid formatкккккк');
     }
+
   };
-  // };
+  };
 
   // const validateSelectedOptions = (
   //   inputStringValue,
@@ -466,19 +467,8 @@ export const CronData = () => {
   };
 
   const handleScheduleLoad = () => {
-    // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то
-    // if (inputStringMinutes.includes('/')) {
-    /* // получаем первое значение и последнее
-      const first = inputStringMinutes.split('/')[0];
-      const last = +inputStringMinutes.split('/')[1];
-      // и если это число больше нуля (тк нельзя ввести отрицательный интервал) и первое значение содержит * то мы диспатчим значение минутсИнтервал
-      if (last > 0 && first === '*') {
-        dispatch(changeMinutesIntervalValue(last));
-        setInputData('');
-        //если нет, то выводим алерт и не позволяем отправить данные
-      } else {
-        alert('invalid format');
-      } */
+    // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то работаем с форматом интервалов
+    
     if (
       inputStringMinutes.includes('/') ||
       inputStringHours.includes('/') ||
