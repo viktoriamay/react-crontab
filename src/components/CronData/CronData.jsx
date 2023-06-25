@@ -366,7 +366,7 @@ export const CronData = () => {
   //     setInputData('');
   // };
 
-  const inputString = '1-5';
+  /* const inputString = '1-5';
   const range = inputStringMinutes.split('-');
   const resultArray = [];
   const ll = () => {
@@ -381,66 +381,82 @@ export const CronData = () => {
       }
       dispatch(changeMinutesValue(resultArray));
     });
-  };
+  }; */
   // console.log({ range });
   // console.log({ resultArray });
 
   // ----------- РАБОЧЕЕ вверху ----------------
 
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
 
   const validateSelectedOptions = (
-  inputStringValue,
-  optionsData,
-  dispatchChangeValue,
-  selectedMinutesInInput
-) => {
-  if (inputStringValue === '*') {
-    return;
-  }
-
-  // let hasError = false; // флаг для проверки ошибок
-  const inputValuePartComma = inputStringValue.split(',');
-  for (let i = 0; i < inputValuePartComma.length; i++) {
-    const inputValuePartDash = inputValuePartComma[i].split('-');
+    inputStringValue,
+    optionsData,
+    dispatchChangeValue,
+    selectedMinutesInInput
+  ) => {
+    if (inputStringValue === '*') {
+      return;
+    }
   
-    if (inputValuePartDash.length === 2) {
-      console.log({ inputValuePartDash }); // добавлено отладочное сообщение
-      console.log({ optionsData }); // добавлено отладочное сообщение
-      const startPartDash = inputValuePartDash[0];
-      const endPartDash = inputValuePartDash[1];
-      
-      optionsData.forEach((day) => {
+    const inputValuePartComma = inputStringValue.split(',');
+    let hasError = false;
+  
+    for (let i = 0; i < inputValuePartComma.length; i++) {
+      const inputValuePartDash = inputValuePartComma[i].split('-');
+  
+      if (inputValuePartDash.length === 2) {
+        const startPartDash = inputValuePartDash[0];
+        const endPartDash = inputValuePartDash[1];
+  
         if (
           !optionsData.some((d) => d.title === startPartDash) ||
           !optionsData.some((d) => d.title === endPartDash)
         ) {
-          setError(true)
+          setError(true);
+          hasError = true;
         } else {
-          if (day.title === startPartDash || day.title === endPartDash) {
-            selectedMinutesInInput.push(day);
-          } else if (
-            day.id >
-              optionsData.find((item) => item.title === startPartDash).id &&
-            day.id <
-              optionsData.find((item) => item.title === endPartDash).id
-          ) {
-            selectedMinutesInInput.push(day);
+          optionsData.forEach((day) => {
+            if (day.title === startPartDash || day.title === endPartDash) {
+              selectedMinutesInInput.push(day);
+            } else if (
+              day.id >
+                optionsData.find((item) => item.title === startPartDash).id &&
+              day.id < optionsData.find((item) => item.title === endPartDash).id
+            ) {
+              selectedMinutesInInput.push(day);
+            }
+          });
+        }
+      } else {
+        const num = inputValuePartComma[i];
+        console.log({ num });
+        const optionData = optionsData.find((m) => m.title === num);
+        if (!optionData) {
+          setError(true);
+          hasError = true;
+        } else {
+          if (optionData || inputStringValue === '*' || inputStringValue === '') {
+            selectedMinutesInInput.push(
+              optionData ||
+                inputStringValue === '*' ||
+                inputStringValue === '' ||
+                0
+            );
           }
         }
-      });
-      console.log({ error });
-      console.log({ selectedMinutesInInput });
+      }
     }
-  }
-
-  if (error) { // вызов alert, если обнаружена ошибка
-    alert('Invalid input value');
-  } else {
-    dispatch(dispatchChangeValue(selectedMinutesInInput));
-    setInputData('');
-  }
-};
+  
+    if (hasError) {
+      alert('Invalid input value');
+    } else {
+      dispatch(dispatchChangeValue(selectedMinutesInInput));
+      setInputData('');
+    }
+  
+    setError(false);
+  };
 
   const handleScheduleLoad = () => {
     // если первый элемент массива (разделенной строки), в данном случае число введенное в инпут (минуты) содержит */, то
